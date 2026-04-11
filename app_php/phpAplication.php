@@ -1,8 +1,8 @@
 <?php
 $host = "mysql"; // nombre del servicio
-$user = "usuario";
-$password = "password";
-$database = "mi_base";
+$user = "appsa";
+$password = "appsa123";
+$database = "usuariosdb";
 
 $conn = new mysqli($host, $user, $password, $database);
 
