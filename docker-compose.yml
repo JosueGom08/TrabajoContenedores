@@ -1,22 +1,21 @@
 version: '3.8'
 
-
 services:
-	app:
-		build: ./app_php
-		container_name: app-php
-		ports:
-					- "8080:80"
-			depends_on:
-			- db
-	
-		db:
-			build: ./database
-				container_name: mysql-server
-			ports: 
-					- "3306:3306"
-			volumes:
-					- db_data:/var/lib/mysq
+  app:
+    build: ./app_php
+    container_name: app-php
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    build: ./database
+    container_name: mysql-server
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
 
 volumes:
-	db_data:
+  db_data:
