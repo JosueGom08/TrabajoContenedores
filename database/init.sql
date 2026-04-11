@@ -1,6 +1,6 @@
 create table usuario (
     id          int AUTO_INCREMENT PRIMARY KEY,
-    user_name   varchar(10)
+    user_name   varchar(10),
     nombre      varchar(50)
 )
 
