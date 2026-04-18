@@ -1,10 +1,20 @@
 <?php
-$host = "mysql"; // nombre del servicio
+$host = "db"; // nombre del servicio
 $user = "appsa";
 $password = "appsa123";
 $database = "usuariosdb";
 
-$conn = new mysqli($host, $user, $password, $database);
+do {
+    $conn = @new mysqli($host, $user, $password, $database);
+
+    if (!$conn->connect_error) {
+        break;
+    }
+
+    sleep(2);
+    $retry++;
+
+} while ($retry < $max_retries);
 
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
