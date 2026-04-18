@@ -2,7 +2,7 @@
 session_start();
 
 // Requerimos el archivo de conexión que ya tienes listo
-require_once 'conexion.php';
+require_once 'Connection.php';
 
 // Verificamos que el formulario se haya enviado por POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Utilizamos la variable $pdo definida en tu archivo conexion.php
         // Preparamos la consulta para prevenir inyección SQL
-        $sql = "SELECT id, username, password FROM usuarios WHERE username = :username LIMIT 1";
+        $sql = "SELECT id, user_name, upassword FROM usuario WHERE user_name = :username LIMIT 1";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Validamos si el usuario existe y si la contraseña coincide.
         // NOTA: Se asume que las contraseñas en BD están encriptadas con password_hash().
         // Si en tu BD están en texto plano (no recomendado), cambia esto a: if ($user && $password === $user['password'])
-        if ($user && password_verify($password, $user['password'])) {
+        if ($user && password_verify($password, $user['upassword'])) {
             
             // Credenciales correctas: Creamos las variables de sesión
             $_SESSION['user_id'] = $user['id'];

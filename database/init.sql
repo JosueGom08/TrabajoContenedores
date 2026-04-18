@@ -1,7 +1,10 @@
+use usuariosdb;
+go;
 CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_name VARCHAR(10),
-    nombre VARCHAR(50)
+    nombre VARCHAR(50),
+    upassword varchar(20)
 );
 
 CREATE TABLE rol (
@@ -15,3 +18,7 @@ CREATE TABLE usuario_rol (
     FOREIGN KEY (usuario) REFERENCES usuario(id),
     FOREIGN KEY (rol) REFERENCES rol(rol)
 );
+
+
+insert into usuario (user_name, nombre, upassword) 
+values('camm', 'Cesar Mazariegos', '$Pizza');
