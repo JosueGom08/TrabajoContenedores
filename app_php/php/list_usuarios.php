@@ -2,6 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 require_once 'Connection.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $sql = "SELECT u.id, u.nombre, u.user_name, r.id_rol, r.descripcion
