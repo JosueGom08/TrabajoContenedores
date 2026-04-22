@@ -17,19 +17,21 @@ if (!isset($_SESSION['user_id'])) {
     <title>Panel de Control</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; margin: 0; padding: 2rem; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .msg-success { background-color: #d1e7dd; color: #0f5132; padding: 1.5rem; border-radius: 8px; border-left: 6px solid #198754; margin-bottom: 2rem; }
         .btn-logout { display: inline-block; padding: 0.5rem 1rem; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; transition: background 0.3s; }
         .btn-logout:hover { background-color: #bb2d3b; }
     </style>
 </head>
 <body>
-
-<div class="container">
+<script>
+    const ID_ROL = <? echo htmlspecialchars($_SESSION['id_rol'])?>
+</script>
+<div class="container-fluid">
     <div class="msg-success">
         <h1 style="margin-top:0;">¡Acceso Permitido!</h1>
         <p>Bienvenido al sistema, <strong><?php echo htmlspecialchars($_SESSION['nombre']); ?> <?php echo htmlspecialchars($_SESSION['rol']); ?></strong>. Tu conexión a la base de datos y validación de sesión han sido exitosas.</p>
     </div>
+
 
     <table class="table table-striped table-hover table-sm caption-top">
         <caption>LISTA DE USUARIOS</caption>
@@ -39,6 +41,8 @@ if (!isset($_SESSION['user_id'])) {
                 <th>NOMBRE</th>
                 <th>USUARIO</th>
                 <th>ROL</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody class="table-group-divider"></tbody>
@@ -46,6 +50,8 @@ if (!isset($_SESSION['user_id'])) {
 
     <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
 </div>
+
+
 
 </body>
     <script src="../js/list_usuarios.js"></script>
