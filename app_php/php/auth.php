@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // Acceso denegado: Mensaje claro como pide el entregable
             $_SESSION['error'] = "Acceso Denegado: Credenciales incorrectas.";
-            header("Location: index.php");
+            header("Location: ../index.php");
             exit;
         }
 
@@ -56,12 +56,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Error de base de datos
         $_SESSION['error'] = "Error en el sistema. Intente más tarde.";
         error_log("Error en auth.php: " . $e->getMessage());
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
 } else {
     // Si acceden directamente al archivo sin POST
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
 ?>

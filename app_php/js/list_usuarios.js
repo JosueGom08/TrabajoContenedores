@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('/list_usuarios.php', {
+    fetch('/php/list_usuarios.php', {
         method: 'POST'
     })
     .then(response => response.json())

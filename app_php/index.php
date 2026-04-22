@@ -49,7 +49,7 @@ session_start();
         </div>
     <?php endif; ?>
 
-    <form action="auth.php" method="POST">
+    <form action="php/auth.php" method="POST">
         <div class="form-group">
             <label for="username">Usuario:</label>
             <input type="text" id="username" name="username" required autocomplete="off">

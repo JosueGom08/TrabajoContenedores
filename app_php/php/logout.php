@@ -13,6 +13,6 @@ session_start();
 $_SESSION['success'] = "Sesión cerrada correctamente.";
 
 // Redirigimos al formulario de login
-header("Location: index.php");
+header("Location: ../index.php");
 exit;
 ?>
