@@ -27,13 +27,24 @@ if (!isset($_SESSION['user_id'])) {
 <div class="container">
     <div class="msg-success">
         <h1 style="margin-top:0;">¡Acceso Permitido!</h1>
-        <p>Bienvenido al sistema protegido, <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong>. Tu conexión a la base de datos y validación de sesión han sido exitosas.</p>
+        <p>Bienvenido al sistema, <strong><?php echo htmlspecialchars($_SESSION['nombre']); ?> <?php echo htmlspecialchars($_SESSION['rol']); ?></strong>. Tu conexión a la base de datos y validación de sesión han sido exitosas.</p>
     </div>
 
-    <p>Este es el contenido confidencial de tu aplicación PHP.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>IID</th>
+                <th>NOMBRE</th>
+                <th>USUARIO</th>
+                <th>ROL</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
     <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
 </div>
 
 </body>
+    <script src="js/list_usuarios.js"></script>
 </html>

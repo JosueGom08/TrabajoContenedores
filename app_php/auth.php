@@ -14,7 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Utilizamos la variable $pdo definida en tu archivo conexion.php
         // Preparamos la consulta para prevenir inyección SQL
-        $sql = "SELECT id, user_name, upassword FROM usuario WHERE user_name = :username LIMIT 1";
+        $sql = "SELECT usr.id, usr.user_name,usr.nombre, usr.upassword, usr.id_rol, rl.descripcion
+                FROM usuario usr
+                INNER JOIN rol rl ON usr.id_rol = rl.id_rol
+                WHERE user_name = :username LIMIT 1";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
@@ -28,7 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Credenciales correctas: Creamos las variables de sesión
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['user_name'];
-            
+            $_SESSION['nombre'] = $user['nombre'];
+            $_SESSION['id_rol'] = $user['id_rol'];
+            $_SESSION['rol'] = $user['descripcion'];
+
             $sql = "INSERT INTO sesiones (usuario) values (:user_id);";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
