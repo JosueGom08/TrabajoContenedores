@@ -2,4 +2,4 @@ FROM php:8.2-apache
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-COPY . /usr/src/myapp
+COPY . /var/www/html
