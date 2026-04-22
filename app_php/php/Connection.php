@@ -8,7 +8,7 @@
 // 1. Configuración de parámetros
 // Edita estos valores según los datos de tu contenedor MySQL
 define('DB_HOST', 'db');     // Nombre del servicio en docker-compose o IP
-define('DB_NAME', 'suariosdb');     // Nombre de tu base de datos
+define('DB_NAME', 'usuariosdb');     // Nombre de tu base de datos
 define('DB_USER', 'appsa');   // Usuario con privilegios
 define('DB_PASS', 'appsa123');   // Contraseña del usuario
 define('DB_CHARSET', 'utf8mb4');    // Codificación para soporte de tildes y ñ
