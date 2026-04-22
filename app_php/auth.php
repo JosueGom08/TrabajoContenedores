@@ -20,15 +20,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
 
         $user = $stmt->fetch();
-
         // Validamos si el usuario existe y si la contraseña coincide.
         // NOTA: Se asume que las contraseñas en BD están encriptadas con password_hash().
         // Si en tu BD están en texto plano (no recomendado), cambia esto a: if ($user && $password === $user['password'])
-        if ($user && password_verify($password, $user['upassword'])) {
+        if ($user && $password === $user['upassword']) {
             
             // Credenciales correctas: Creamos las variables de sesión
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
+            $_SESSION['username'] = $user['user_name'];
+            
+            $sql = "INSERT INTO sesiones (usuario) values (:user_id);";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':user_id' => $_SESSION['user_id']
+            ]);
             
             // Redirigimos a la página protegida
             header("Location: dashboard.php");
