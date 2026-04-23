@@ -19,16 +19,14 @@ CREATE TABLE logs (
     tabla           VARCHAR(50) NOT NULL,
     registro_ant    TEXT        NULL,
     registro_upd    TEXT        NULL,
-    fecha_registro  DATETIME    DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario) REFERENCES usuario(id)
+    fecha_registro  DATETIME    DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE sesiones(
     id_sesiones         INT AUTO_INCREMENT PRIMARY KEY,
     usuario             INT         NOT NULL,
     fecha_ini_sesion    DATETIME    DEFAULT CURRENT_TIMESTAMP,
-    fecha_fin_sesion    DATETIME    NULL,
-    FOREIGN KEY (usuario) REFERENCES usuario(id)
+    fecha_fin_sesion    DATETIME    NULL
 );
 
 -- Inserts
