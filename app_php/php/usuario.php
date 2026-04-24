@@ -12,7 +12,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode(["mensaje" => "Método no enviado", "estatus" => false]);
         exit;
     }
+    
+    if ($data['metodo'] === "ACTUALIZAR"){
 
+    } else
+    if ($data['metodo'] === "INSERTAR"){
+
+    } else
+    if ($data['metodo'] === "OBTENER"){
+        if (!isset($data['id_user'])) {
+            echo json_encode([
+                "mensaje" => "ID INCORRECTO",
+                "estatus" => false
+            ]);
+            exit;
+        }
+        try {
+            $sql = "SELECT * FROM usuario WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':id' => $data['id_user']]);
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo json_encode($resultado);
+
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode([ "mensaje" => "Error en la base de datos", "estatus" => false ]);
+            error_log("ERROR: " . $e->getMessage());
+        }
+    } else
     if ($data['metodo'] === "ELIMINAR") {
 
         if (!isset($data['id_user'])) {

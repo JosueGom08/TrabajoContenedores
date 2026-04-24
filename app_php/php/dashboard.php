@@ -14,6 +14,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Panel de Control</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; margin: 0; padding: 2rem; }
@@ -32,6 +33,47 @@ if (!isset($_SESSION['user_id'])) {
         <p>Bienvenido al sistema, <strong><?php echo htmlspecialchars($_SESSION['nombre']); ?> <?php echo htmlspecialchars($_SESSION['rol']); ?></strong>. Tu conexión a la base de datos y validación de sesión han sido exitosas.</p>
     </div>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-success" id="btnTransmitir" value="0">Transmitir</button>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col-md-3">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="spnNombre">Nombre</span>
+                    <input type="text" class="form-control" aria-describedby="spnNombre" id="inpNombre">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="spnUsuario">Usuario</span>
+                    <input type="text" class="form-control"  aria-describedby="spnUsuario" id="inpUsuario">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="spnPassword">Contraseña</span>
+                    <input type="password" class="form-control"  aria-describedby="spnPassword" id="inpPassword">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group mb-3">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inpRol">Rol</label>
+                        <select class="form-select" id="inpRol">
+                            <option selected>-- Rol --</option>
+                            <option value="1">Administrador</option>
+                            <option value="2">Lectura</option>
+                            <option value="3">Login</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <table class="table table-striped table-hover table-sm caption-top">
         <caption>LISTA DE USUARIOS</caption>
@@ -45,7 +87,7 @@ if (!isset($_SESSION['user_id'])) {
                 <th></th>
             </tr>
         </thead>
-        <tbody class="table-group-divider"></tbody>
+        <tbody class="table-group-divider" id="tbData"></tbody>
     </table>
 
     <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
@@ -54,7 +96,45 @@ if (!isset($_SESSION['user_id'])) {
 
 
 </body>
-    <script src="../js/list_usuarios.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/list_usuarios.js"></script>
 
+    <script>
+        $("#btnTransmitir").on('click', (event) =>{
+            const id = parseInt($("#btnTransmitir").val());
+            if (id > 0){// ES ACTUALIZACION
+                $("#btnTransmitir").val(0);
+                fetch('/php/usuario.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        metodo: "ACTUALIZAR",
+                        id_user: id,
+                        nombre: $('#inpNombre').val(),
+                        usuario: $('#inpUsuario').val(),
+                        contrasenia: $('#inpPassword').val(),
+                        rol: $('#inpRol').val()
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {})
+            }else if (id == 0){
+                fetch('/php/usuario.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        metodo: "INSERTAR",
+                        nombre: $('#inpNombre').val(),
+                        usuario: $('#inpUsuario').val(),
+                        contrasenia: $('#inpPassword').val(),
+                        rol: $('#inpRol').val()
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {})
+            }
+            
+            iniPage();
+        })
+    </script>
 </html>
