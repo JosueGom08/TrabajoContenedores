@@ -1,43 +1,41 @@
-function iniPage(){
-    document.addEventListener("DOMContentLoaded", () => {
-        if(ID_ROL === 3) return;
-        
-        fetch('/php/list_usuarios.php', {
-            method: 'POST'
-        })
-        .then(response => response.json())
-        .then(data => {
-            const wTBody = document.querySelector("table tbody");
-            wTBody.innerHTML = "";
-            data.forEach(user => {
-                if (ID_ROL === 1){
-                    accion = `
-                    <td>
-                        <button type="button" onclick="eliminarUsuario(${user.id})" class"btn-sm">
-                            Eliminar
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" onclick="actualizarUsuario(${user.id})" class"btn-sm">
-                            Actualizar
-                        </button>
-                    </td>
-                    `
-                }
-                wTBody.innerHTML +=`
-                    <tr id="${user.id}">
-                        <td>${user.id}</td>
-                        <td>${user.nombre}</td>
-                        <td>${user.user_name}</td>
-                        <td>${user.descripcion}</td>
-                        ${accion}
-                    </tr>
-                `;
-            });
-        })
-        .catch(err => console.log("Error: ", err))
-    });
-}
+document.addEventListener("DOMContentLoaded", () => {
+    if(ID_ROL === 3) return;
+    
+    fetch('/php/list_usuarios.php', {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        const wTBody = document.querySelector("table tbody");
+        wTBody.innerHTML = "";
+        data.forEach(user => {
+            if (ID_ROL === 1){
+                accion = `
+                <td>
+                    <button type="button" onclick="eliminarUsuario(${user.id})" class"btn-sm">
+                        Eliminar
+                    </button>
+                </td>
+                <td>
+                    <button type="button" onclick="actualizarUsuario(${user.id})" class"btn-sm">
+                        Actualizar
+                    </button>
+                </td>
+                `
+            }
+            wTBody.innerHTML +=`
+                <tr id="${user.id}">
+                    <td>${user.id}</td>
+                    <td>${user.nombre}</td>
+                    <td>${user.user_name}</td>
+                    <td>${user.descripcion}</td>
+                    ${accion}
+                </tr>
+            `;
+        });
+    })
+    .catch(err => console.log("Error: ", err))
+});
 
 
 function eliminarUsuario (idUsr){
@@ -84,5 +82,3 @@ function actualizarUsuario (id){
 function confirmar(operacion) {
     return confirm(`¿Seguro que deseas ${operacion} este usuario?`);
 }
-
-iniPage();

@@ -32,64 +32,64 @@ if (!isset($_SESSION['user_id'])) {
         <h1 style="margin-top:0;">¡Acceso Permitido!</h1>
         <p>Bienvenido al sistema, <strong><?php echo htmlspecialchars($_SESSION['nombre']); ?> <?php echo htmlspecialchars($_SESSION['rol']); ?></strong>. Tu conexión a la base de datos y validación de sesión han sido exitosas.</p>
     </div>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2">
-                <button type="button" class="btn btn-success" id="btnTransmitir" value="0">Transmitir</button>
-            </div>
-        </div>
-        <div class="row pt-2">
-            <div class="col-md-3">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="spnNombre">Nombre</span>
-                    <input type="text" class="form-control" aria-describedby="spnNombre" id="inpNombre">
+    <?php if (isset($_SESSION['id_rol']) && $_SESSION['id_rol'] != 3): ?>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-success" id="btnTransmitir" value="0">Transmitir</button>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="spnUsuario">Usuario</span>
-                    <input type="text" class="form-control"  aria-describedby="spnUsuario" id="inpUsuario">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="spnPassword">Contraseña</span>
-                    <input type="password" class="form-control"  aria-describedby="spnPassword" id="inpPassword">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="input-group mb-3">
+            <div class="row pt-2">
+                <div class="col-md-3">
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="inpRol">Rol</label>
-                        <select class="form-select" id="inpRol">
-                            <option selected>-- Rol --</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Lectura</option>
-                            <option value="3">Login</option>
-                        </select>
+                        <span class="input-group-text" id="spnNombre">Nombre</span>
+                        <input type="text" class="form-control" aria-describedby="spnNombre" id="inpNombre">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="spnUsuario">Usuario</span>
+                        <input type="text" class="form-control"  aria-describedby="spnUsuario" id="inpUsuario">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="spnPassword">Contraseña</span>
+                        <input type="password" class="form-control"  aria-describedby="spnPassword" id="inpPassword">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inpRol">Rol</label>
+                            <select class="form-select" id="inpRol">
+                                <option selected>-- Rol --</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Lectura</option>
+                                <option value="3">Login</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <table class="table table-striped table-hover table-sm caption-top">
-        <caption>LISTA DE USUARIOS</caption>
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>NOMBRE</th>
-                <th>USUARIO</th>
-                <th>ROL</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody class="table-group-divider" id="tbData"></tbody>
-    </table>
-
+        <table class="table table-striped table-hover table-sm caption-top">
+            <caption>LISTA DE USUARIOS</caption>
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>USUARIO</th>
+                    <th>ROL</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tbData"></tbody>
+        </table>
+    <?php endif; ?>
     <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
 </div>
 
@@ -117,7 +117,10 @@ if (!isset($_SESSION['user_id'])) {
                     })
                 })
                 .then(res => res.json())
-                .then(data => {})
+                .then(data => {
+                    fnLoadPage()
+                    fnLimpiar()
+                })
             }else if (id == 0){
                 fetch('/php/usuario.php', {
                     method: 'POST',
@@ -131,10 +134,55 @@ if (!isset($_SESSION['user_id'])) {
                     })
                 })
                 .then(res => res.json())
-                .then(data => {})
+                .then(data => {
+                    fnLoadPage()
+                    fnLimpiar()
+                })
             }
-            
-            iniPage();
         })
+
+        function fnLimpiar(){
+            $('#inpNombre').val(''),
+            $('#inpUsuario').val(''),
+            $('#inpPassword').val(''),
+            $('#inpRol').val(0)
+            $("#btnTransmitir").val(0)
+        }
+        function fnLoadPage ()  {
+            if(ID_ROL === 3) return;
+            fetch('/php/list_usuarios.php', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const wTBody = document.querySelector("table tbody");
+                wTBody.innerHTML = "";
+                data.forEach(user => {
+                    if (ID_ROL === 1){
+                        accion = `
+                        <td>
+                            <button type="button" onclick="eliminarUsuario(${user.id})" class"btn-sm">
+                                Eliminar
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" onclick="actualizarUsuario(${user.id})" class"btn-sm">
+                                Actualizar
+                            </button>
+                        </td>
+                        `
+                    }
+                    wTBody.innerHTML +=`
+                        <tr id="${user.id}">
+                            <td>${user.id}</td>
+                            <td>${user.nombre}</td>
+                            <td>${user.user_name}</td>
+                            <td>${user.descripcion}</td>
+                            ${accion}
+                        </tr>
+                    `;
+                });
+            }).catch(err => console.log("Error: ", err))
+        }
     </script>
 </html>

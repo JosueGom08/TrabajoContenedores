@@ -14,10 +14,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     
     if ($data['metodo'] === "ACTUALIZAR"){
-
+        $sql = "UPDATE usuario
+                SET nombre      = :nombre,
+                    upassword   = :contrasenia,
+                    user_name   = :user_name,
+                    id_rol      = :rol
+                WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':nombre'       => $data['nombre'],
+                        ':contrasenia'  => $data['contrasenia'],
+                        ':user_name'    => $data['usuario'],
+                        ':id'           => $data['id_user'],
+                        ':rol'          => $data['rol']]);
+        echo json_encode(["estado" => true]);
     } else
     if ($data['metodo'] === "INSERTAR"){
-
+        $sql = "INSERT INTO usuario (user_name, nombre, id_rol, upassword) 
+                VALUES (:user_name, :nombre, :rol, :contrasenia)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':nombre'       => $data['nombre'],
+                        ':contrasenia'  => $data['contrasenia'],
+                        ':user_name'    => $data['usuario'],
+                        ':rol'          => $data['rol']]);
+        echo json_encode(["estado" => true]);
     } else
     if ($data['metodo'] === "OBTENER"){
         if (!isset($data['id_user'])) {
