@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const wTBody = document.querySelector("table tbody");
         wTBody.innerHTML = "";
         data.forEach(user => {
+            let accion = ""
             if (ID_ROL === 1){
                 accion = `
                 <td>
