@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+    if(ID_ROL === 3) return;
+    
     fetch('/php/list_usuarios.php', {
         method: 'POST'
     })
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 `
             }
             wTBody.innerHTML +=`
-                <tr>
+                <tr id="${user.id}">
                     <td>${user.id}</td>
                     <td>${user.nombre}</td>
                     <td>${user.user_name}</td>
@@ -58,10 +60,23 @@ function eliminarUsuario (idUsr){
     })
 }
 
-function actualizarUsuario (idUsr){
-    if(confirmar('actualizar')) return
-    
-
+function actualizarUsuario (id){
+    fetch('/php/usuario.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            metodo: 'OBTENER',
+            id_user: id
+        })
+    }).then(res => res.json())
+    .then(data => {
+        document.getElementById('inpNombre').value = data.nombre
+        document.getElementById('inpUsuario').value = data.user_name
+        document.getElementById('inpRol').value = data.id_rol
+        document.getElementById('btnTransmitir').value = id
+    })
 }
 
 function confirmar(operacion) {

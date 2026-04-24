@@ -14,7 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Utilizamos la variable $pdo definida en tu archivo conexion.php
         // Preparamos la consulta para prevenir inyección SQL
-        $sql = "SELECT usr.id, usr.user_name,usr.nombre, usr.upassword, usr.id_rol, rl.descripcion
+        $sql = "SELECT  usr.id,
+                        usr.user_name,
+                        usr.nombre, 
+                        usr.upassword, 
+                        usr.id_rol, 
+                        rl.descripcion
                 FROM usuario usr
                 INNER JOIN rol rl ON usr.id_rol = rl.id_rol
                 WHERE user_name = :username LIMIT 1";
