@@ -32,6 +32,7 @@ CREATE TABLE sesiones(
 -- Inserts
 INSERT INTO rol (descripcion) VALUES ('Administrador');
 INSERT INTO rol (descripcion) VALUES ('Lectura');
+INSERT INTO rol (descripcion) VALUES ('Login');
 
 INSERT INTO usuario (user_name, nombre, id_rol, upassword) 
 VALUES ('camm', 'Cesar Mazariegos', 1, '$Pizza');
